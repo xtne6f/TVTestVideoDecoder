@@ -87,6 +87,18 @@ STDAPI DllUnregisterServer()
 	return AMovieDllRegisterServer2(FALSE);
 }
 
+#ifndef _MSC_VER
+STDAPI DllCanUnloadNow()
+{
+	return BASECLASSES_DllCanUnloadNow();
+}
+
+STDAPI DllGetClassObject(REFCLSID rClsID, REFIID riid, void **pv)
+{
+	return BASECLASSES_DllGetClassObject(rClsID, riid, pv);
+}
+#endif
+
 
 extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
 

@@ -44,6 +44,24 @@ public:
 		bool fTopFiledFirst, int Field) override;
 
 private:
+#ifdef __MINGW32__
+	// <dxva2api.h> lack of definitions (Feb 2020 checked)
+	enum
+	{
+		DXVA2_NoiseFilterLumaLevel = 1,
+		DXVA2_NoiseFilterLumaThreshold,
+		DXVA2_NoiseFilterLumaRadius,
+		DXVA2_NoiseFilterChromaLevel,
+		DXVA2_NoiseFilterChromaThreshold,
+		DXVA2_NoiseFilterChromaRadius,
+		DXVA2_DetailFilterLumaLevel,
+		DXVA2_DetailFilterLumaThreshold,
+		DXVA2_DetailFilterLumaRadius,
+		DXVA2_DetailFilterChromaLevel,
+		DXVA2_DetailFilterChromaThreshold,
+		DXVA2_DetailFilterChromaRadius
+	};
+#endif
 	struct SampleInfo
 	{
 		IDirect3DSurface9 *pSurface;

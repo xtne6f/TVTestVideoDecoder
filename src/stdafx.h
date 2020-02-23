@@ -40,6 +40,8 @@
 
 #define TVTVIDEODEC_IMPL
 
+#ifdef _MSC_VER
+
 #if defined(_M_IX86) || defined(_M_AMD64)
 #define TVTVIDEODEC_SSE_SUPPORT
 #define TVTVIDEODEC_SSE2_SUPPORT
@@ -51,6 +53,37 @@
 #define TVTVIDEODEC_AVX2_SUPPORT
 #endif
 
+#else
+
+#if defined(_X86_) || defined(__x86_64)
+#ifdef __SSE__
+#define TVTVIDEODEC_SSE_SUPPORT
+#ifdef __SSE2__
+#define TVTVIDEODEC_SSE2_SUPPORT
+#ifdef __SSE3__
+#define TVTVIDEODEC_SSE3_SUPPORT
+#ifdef __SSSE3__
+#define TVTVIDEODEC_SSSE3_SUPPORT
+#ifdef __SSE4_1__
+#define TVTVIDEODEC_SSE4_1_SUPPORT
+#ifdef __SSE4_2__
+#define TVTVIDEODEC_SSE4_2_SUPPORT
+#ifdef __AVX__
+#define TVTVIDEODEC_AVX_SUPPORT
+#ifdef __AVX2__
+#define TVTVIDEODEC_AVX2_SUPPORT
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+
+#endif
+
 // Avoid VC++ header warnings
 #pragma warning(disable: 4995)	// name was marked as #pragma deprecated
 
@@ -58,6 +91,7 @@
 #include <windowsx.h>
 #include <tchar.h>
 #include <shellapi.h>
+#define STRSAFE_NO_DEPRECATE
 #include <dshow.h>
 #include <mmsystem.h>
 #include <dvdmedia.h>
@@ -87,7 +121,13 @@
 #endif
 #endif
 #include <new>
+#ifdef __MINGW32__
+#define STREAMS_MINGW_NOMINMAX
+#endif
 #include "BaseClasses/streams.h"
+#ifdef __MINGW32__
+#undef __in
+#endif
 
 #include <crtdbg.h>
 #ifdef _DEBUG
@@ -123,9 +163,18 @@ void DebugTrace(LPCTSTR pszFormat, ...);
 #endif
 #pragma comment(lib, "libmpeg2.lib")
 
+#ifdef _MSC_VER
 #ifdef _WIN64
 #pragma comment(linker, "/export:DllCanUnloadNow,PRIVATE")
 #pragma comment(linker, "/export:DllGetClassObject,PRIVATE")
 #pragma comment(linker, "/export:DllRegisterServer,PRIVATE")
 #pragma comment(linker, "/export:DllUnregisterServer,PRIVATE")
+#endif
+#else
+STDAPI BASECLASSES_DllCanUnloadNow();
+STDAPI BASECLASSES_DllGetClassObject(REFCLSID rClsID, REFIID riid, void **pv);
+STDAPI __declspec(dllexport) DllCanUnloadNow();
+STDAPI __declspec(dllexport) DllGetClassObject(REFCLSID rClsID, REFIID riid, void **pv);
+STDAPI __declspec(dllexport) DllRegisterServer();
+STDAPI __declspec(dllexport) DllUnregisterServer();
 #endif

@@ -189,7 +189,7 @@ STDMETHODIMP CDXVA2MediaSample::QueryInterface(REFIID riid, void **ppv)
 	if (riid == __uuidof(IDXVA2MediaSample)) {
 		return GetInterface(static_cast<IDXVA2MediaSample*>(this), ppv);
 	}
-	if (riid == IID_IMFGetService) {
+	if (riid == __uuidof(IMFGetService)) {
 		return GetInterface(static_cast<IMFGetService*>(this), ppv);
 	}
 

@@ -33,6 +33,31 @@
 #include "resource.h"
 
 
+#ifdef __MINGW32__
+// <dvdmedia.h> lack of definitions (Feb 2020 checked)
+#ifndef AMCONTROL_COLORINFO_PRESENT
+#define AMCONTROL_COLORINFO_PRESENT 0x00000080
+#endif
+#ifndef AM_VIDEO_FLAG_FIELD1FIRST
+#define AM_VIDEO_FLAG_FIELD1FIRST 0x0004L
+#endif
+#ifndef AM_VIDEO_FLAG_WEAVE
+#define AM_VIDEO_FLAG_WEAVE 0x0008L
+#endif
+#ifndef AM_VIDEO_FLAG_I_SAMPLE
+#define AM_VIDEO_FLAG_I_SAMPLE 0x0000L
+#endif
+#ifndef AM_VIDEO_FLAG_P_SAMPLE
+#define AM_VIDEO_FLAG_P_SAMPLE 0x0010L
+#endif
+#ifndef AM_VIDEO_FLAG_B_SAMPLE
+#define AM_VIDEO_FLAG_B_SAMPLE 0x0020L
+#endif
+#ifndef AM_VIDEO_FLAG_REPEAT_FIELD
+#define AM_VIDEO_FLAG_REPEAT_FIELD 0x0040L
+#endif
+#endif
+
 #define KEY_EnableDeinterlace L"EnableDeinterlace"
 #define KEY_DeinterlaceMethod L"DeinterlaceMethod"
 #define KEY_AdaptProgressive  L"AdaptProgressive"
@@ -371,7 +396,7 @@ DWORD CTVTestVideoDecoder::GetVideoInfoControlFlags() const
 #else
 	fmt->VideoTransferMatrix = DXVA2_VideoTransferMatrix_BT709;
 	fmt->VideoPrimaries = DXVA2_VideoPrimaries_BT709;
-	fmt->VideoTransferFunction = DXVA2_VideoTransFunc_22_709;
+	fmt->VideoTransferFunction = DXVA2_VideoTransFunc_709;
 #endif
 
 	const mpeg2_info_t *pInfo = m_pDecoder->GetMpeg2Info();
@@ -413,7 +438,7 @@ DWORD CTVTestVideoDecoder::GetVideoInfoControlFlags() const
 
 			switch (sequence->transfer_characteristics) {
 			case 1:
-				fmt->VideoTransferFunction = DXVA2_VideoTransFunc_22_709;
+				fmt->VideoTransferFunction = DXVA2_VideoTransFunc_709;
 				break;
 			case 4:
 				fmt->VideoTransferFunction = DXVA2_VideoTransFunc_22;
@@ -422,10 +447,10 @@ DWORD CTVTestVideoDecoder::GetVideoInfoControlFlags() const
 				fmt->VideoTransferFunction = DXVA2_VideoTransFunc_28;
 				break;
 			case 6:
-				fmt->VideoTransferFunction = DXVA2_VideoTransFunc_22_709;
+				fmt->VideoTransferFunction = DXVA2_VideoTransFunc_709;
 				break;
 			case 7:
-				fmt->VideoTransferFunction = DXVA2_VideoTransFunc_22_240M;
+				fmt->VideoTransferFunction = DXVA2_VideoTransFunc_240M;
 				break;
 			case 8:
 				fmt->VideoTransferFunction = DXVA2_VideoTransFunc_10;

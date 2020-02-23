@@ -364,7 +364,7 @@ void * __stdcall memmoveInternal(void *, const void *, size_t);
 
 inline void * __cdecl memchrInternal(const void *buf, int chr, size_t cnt)
 {
-#ifdef _X86_
+#if defined(_X86_) && defined(_MSC_VER)
     void *pRet = NULL;
 
     _asm {

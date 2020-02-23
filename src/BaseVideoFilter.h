@@ -28,6 +28,27 @@
 #include "FrameBuffer.h"
 
 
+#ifdef __MINGW32__
+// <dxva2api.h> lack of definitions (Feb 2020 checked)
+#ifndef __IDirectXVideoMemoryConfiguration_INTERFACE_DEFINED__
+struct IDirectXVideoMemoryConfiguration : public IUnknown
+{
+	STDMETHOD(GetAvailableSurfaceTypeByIndex)(DWORD dwTypeIndex, DXVA2_SurfaceType *pdwType) = 0;
+	STDMETHOD(SetSurfaceType)(DXVA2_SurfaceType dwType) = 0;
+};
+__CRT_UUID_DECL(IDirectXVideoMemoryConfiguration, 0xB7F916DD, 0xDB3B, 0x49C1, 0x84,0xD7, 0xE4,0x5E,0xF9,0x9E,0xC7,0x26);
+#endif
+
+// <mfidl.h> lack of definitions (Feb 2020 checked)
+#ifndef __IMFGetService_INTERFACE_DEFINED__
+struct IMFGetService : public IUnknown
+{
+	STDMETHOD(GetService)(REFGUID guidService, REFIID riid, LPVOID *ppvObject) = 0;
+};
+__CRT_UUID_DECL(IMFGetService, 0xFA993888, 0x4383, 0x415A, 0xA9,0x30, 0xDD,0x47,0x2A,0x8C,0xF6,0xF7);
+#endif
+#endif
+
 class CDXVA2Allocator;
 
 class CBaseVideoFilter : public CTransformFilter
