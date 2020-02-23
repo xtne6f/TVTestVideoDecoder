@@ -134,26 +134,26 @@ STDMETHODIMP CTVTestVideoDecoder::NonDelegatingQueryInterface(REFIID riid, void 
 	if (riid == __uuidof(ISpecifyPropertyPages2))
 		return GetInterface(static_cast<ISpecifyPropertyPages2*>(this), ppv);
 
-	return __super::NonDelegatingQueryInterface(riid, ppv);
+	return CBaseVideoFilter::NonDelegatingQueryInterface(riid, ppv);
 }
 
 HRESULT CTVTestVideoDecoder::EndOfStream()
 {
 	DBG_TRACE(TEXT("EndOfStream()"));
 	CAutoLock Lock(&m_csReceive);
-	return __super::EndOfStream();
+	return CBaseVideoFilter::EndOfStream();
 }
 
 HRESULT CTVTestVideoDecoder::BeginFlush()
 {
 	DBG_TRACE(TEXT("BeginFlush()"));
-	return __super::BeginFlush();
+	return CBaseVideoFilter::BeginFlush();
 }
 
 HRESULT CTVTestVideoDecoder::EndFlush()
 {
 	DBG_TRACE(TEXT("EndFlush()"));
-	return __super::EndFlush();
+	return CBaseVideoFilter::EndFlush();
 }
 
 HRESULT CTVTestVideoDecoder::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
@@ -161,7 +161,7 @@ HRESULT CTVTestVideoDecoder::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tS
 	DBG_TRACE(TEXT("NewSegment() : %lld %lld %f"), tStart, tStop, dRate);
 	CAutoLock Lock(&m_csReceive);
 	m_fDropFrames = false;
-	return __super::NewSegment(tStart, tStop, dRate);
+	return CBaseVideoFilter::NewSegment(tStart, tStop, dRate);
 }
 
 void CTVTestVideoDecoder::GetOutputFormatList(OutputFormatList *pFormatList) const
@@ -449,7 +449,7 @@ D3DFORMAT CTVTestVideoDecoder::GetDXVA2SurfaceFormat() const
 	if (pDXVADecoder)
 		return pDXVADecoder->GetSurfaceFormat();
 
-	return __super::GetDXVA2SurfaceFormat();
+	return CBaseVideoFilter::GetDXVA2SurfaceFormat();
 }
 
 HRESULT CTVTestVideoDecoder::OnDXVA2DeviceHandleOpened()
@@ -1019,7 +1019,7 @@ HRESULT CTVTestVideoDecoder::BreakConnect(PIN_DIRECTION dir)
 		SafeDelete(m_pDecoder);
 	}
 
-	return __super::BreakConnect(dir);
+	return CBaseVideoFilter::BreakConnect(dir);
 }
 
 HRESULT CTVTestVideoDecoder::CompleteConnect(PIN_DIRECTION direction, IPin *pReceivePin)
@@ -1043,7 +1043,7 @@ HRESULT CTVTestVideoDecoder::CompleteConnect(PIN_DIRECTION direction, IPin *pRec
 		}
 	}
 
-	HRESULT hr = __super::CompleteConnect(direction, pReceivePin);
+	HRESULT hr = CBaseVideoFilter::CompleteConnect(direction, pReceivePin);
 	if (FAILED(hr)) {
 		return hr;
 	}
@@ -1063,7 +1063,7 @@ HRESULT CTVTestVideoDecoder::StartStreaming()
 
 	InitDecode(true);
 
-	return __super::StartStreaming();
+	return CBaseVideoFilter::StartStreaming();
 }
 
 HRESULT CTVTestVideoDecoder::StopStreaming()
@@ -1072,7 +1072,7 @@ HRESULT CTVTestVideoDecoder::StopStreaming()
 
 	//m_pDecoder->Close();
 
-	return __super::StopStreaming();
+	return CBaseVideoFilter::StopStreaming();
 }
 
 HRESULT CTVTestVideoDecoder::AlterQuality(Quality q)
@@ -1464,14 +1464,14 @@ STDMETHODIMP CMpeg2DecoderInputPin::NonDelegatingQueryInterface(REFIID riid, voi
 	if (riid == IID_IKsPropertySet)
 		return GetInterface(static_cast<IKsPropertySet*>(this), ppv);
 
-	return __super::NonDelegatingQueryInterface(riid, ppv);
+	return CTransformInputPin::NonDelegatingQueryInterface(riid, ppv);
 }
 
 // IMemInputPin
 
 STDMETHODIMP CMpeg2DecoderInputPin::Receive(IMediaSample* pSample)
 {
-	return __super::Receive(pSample);
+	return CTransformInputPin::Receive(pSample);
 }
 
 // IKsPropertySet

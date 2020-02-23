@@ -108,8 +108,8 @@
 void DebugTrace(LPCTSTR pszFormat, ...);
 #endif
 #else
-#define DBG_TRACE __noop
-#define DBG_ERROR __noop
+#define DBG_TRACE(fmt, ...) static_cast<void>(0)
+#define DBG_ERROR(fmt, ...) static_cast<void>(0)
 #endif
 
 #define restrict __restrict

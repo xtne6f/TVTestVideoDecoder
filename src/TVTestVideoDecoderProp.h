@@ -67,3 +67,8 @@ private:
 	~CTVTestVideoDecoderProp();
 	void MakeDirty();
 };
+
+
+#ifdef __CRT_UUID_DECL
+__CRT_UUID_DECL(CTVTestVideoDecoderProp, 0x9AAE9F7C, 0x6B57, 0x4399, 0xA9,0x14, 0x60,0x55,0x59,0xF1,0x68,0x6A);
+#endif

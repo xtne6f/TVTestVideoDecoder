@@ -816,7 +816,7 @@ HRESULT CBaseVideoFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType *pmt)
 		}
 	}
 
-	return __super::SetMediaType(dir, pmt);
+	return CTransformFilter::SetMediaType(dir, pmt);
 }
 
 HRESULT CBaseVideoFilter::BreakConnect(PIN_DIRECTION dir)
@@ -825,7 +825,7 @@ HRESULT CBaseVideoFilter::BreakConnect(PIN_DIRECTION dir)
 		m_OutDimensions = m_InDimensions;
 	}
 
-	return __super::BreakConnect(dir);
+	return CTransformFilter::BreakConnect(dir);
 }
 
 HRESULT CBaseVideoFilter::CompleteConnect(PIN_DIRECTION direction, IPin *pReceivePin)
@@ -885,7 +885,7 @@ STDMETHODIMP CBaseVideoInputAllocator::GetBuffer(IMediaSample **ppBuffer, REFERE
 		return VFW_E_NOT_COMMITTED;
 	}
 
-	HRESULT hr = __super::GetBuffer(ppBuffer, pStartTime, pEndTime, dwFlags);
+	HRESULT hr = CMemAllocator::GetBuffer(ppBuffer, pStartTime, pEndTime, dwFlags);
 
 	if (SUCCEEDED(hr) && m_mt.majortype != GUID_NULL) {
 		(*ppBuffer)->SetMediaType(&m_mt);
@@ -988,7 +988,7 @@ STDMETHODIMP CBaseVideoInputPin::ReceiveConnection(IPin *pConnector, const AM_ME
 		return S_OK;
 	}
 
-	return __super::ReceiveConnection(pConnector, pmt);
+	return CTransformInputPin::ReceiveConnection(pConnector, pmt);
 }
 
 
@@ -1009,7 +1009,7 @@ HRESULT CBaseVideoOutputPin::CheckMediaType(const CMediaType *mtOut)
 		}
 	}
 
-	return __super::CheckMediaType(mtOut);
+	return CTransformOutputPin::CheckMediaType(mtOut);
 }
 
 HRESULT CBaseVideoOutputPin::InitAllocator(IMemAllocator **ppAllocator)
@@ -1021,7 +1021,7 @@ HRESULT CBaseVideoOutputPin::InitAllocator(IMemAllocator **ppAllocator)
 	hr = m_pFilter->InitAllocator(ppAllocator);
 
 	if (hr == E_NOTIMPL) {
-		hr = __super::InitAllocator(ppAllocator);
+		hr = CTransformOutputPin::InitAllocator(ppAllocator);
 	}
 
 	return hr;

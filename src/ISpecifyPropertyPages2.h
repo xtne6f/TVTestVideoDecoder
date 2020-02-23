@@ -26,3 +26,7 @@ MIDL_INTERFACE("03481710-D73E-4674-839F-03EDE2D60ED8") ISpecifyPropertyPages2 : 
 {
 	STDMETHOD(CreatePage)(const GUID &guid, IPropertyPage **ppPage) = 0;
 };
+
+#ifdef __CRT_UUID_DECL
+__CRT_UUID_DECL(ISpecifyPropertyPages2, 0x03481710, 0xD73E, 0x4674, 0x83,0x9F, 0x03,0xED,0xE2,0xD6,0x0E,0xD8);
+#endif

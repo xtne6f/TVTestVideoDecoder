@@ -64,7 +64,7 @@ STDMETHODIMP CTVTestVideoDecoderProp::NonDelegatingQueryInterface(REFIID riid, v
 	if (riid == __uuidof(IPropertyPage))
 		return GetInterface(static_cast<IPropertyPage*>(this), ppv);
 
-	return __super::NonDelegatingQueryInterface(riid, ppv);
+	return CBasePropertyPage::NonDelegatingQueryInterface(riid, ppv);
 }
 
 HRESULT CTVTestVideoDecoderProp::OnConnect(IUnknown *pUnknown)
@@ -416,7 +416,7 @@ INT_PTR CTVTestVideoDecoderProp::OnReceiveMessage(HWND hwnd, UINT uMsg, WPARAM w
 		return TRUE;
 	}
 
-	return __super::OnReceiveMessage(hwnd, uMsg, wParam, lParam);
+	return CBasePropertyPage::OnReceiveMessage(hwnd, uMsg, wParam, lParam);
 }
 
 void CTVTestVideoDecoderProp::MakeDirty()

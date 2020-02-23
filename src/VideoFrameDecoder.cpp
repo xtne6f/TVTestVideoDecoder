@@ -58,7 +58,7 @@ STDMETHODIMP CTVTestVideoFrameDecoder::NonDelegatingQueryInterface(REFIID riid, 
 	if (riid == __uuidof(ITVTestVideoFrameDecoder))
 		return GetInterface(static_cast<ITVTestVideoFrameDecoder*>(this), ppv);
 
-	return __super::NonDelegatingQueryInterface(riid, ppv);
+	return CUnknown::NonDelegatingQueryInterface(riid, ppv);
 }
 
 STDMETHODIMP CTVTestVideoFrameDecoder::Open(REFGUID VideoSubtype)

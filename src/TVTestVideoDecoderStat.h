@@ -56,3 +56,8 @@ private:
 	void UpdateMode(DWORD Mode);
 	void UpdateDXVADeviceDescription(LPCWSTR pszDescription);
 };
+
+
+#ifdef __CRT_UUID_DECL
+__CRT_UUID_DECL(CTVTestVideoDecoderStat, 0x48749A3E, 0x2680, 0x4833, 0x93,0xAF, 0x8B,0x93,0x91,0x4B,0x37,0x6F);
+#endif

@@ -74,7 +74,10 @@ static inline void Copy_SSE2(void * restrict pDst, const void * restrict pSrc, s
 		MM_STORE(q + 2, xmm2);
 		break;
 	default:
+#ifdef _MSC_VER
 		__assume(0);
+#endif
+		break;
 	}
 }
 
@@ -132,7 +135,10 @@ static inline void Copy_AVX2(void * restrict pDst, const void * restrict pSrc, s
 		MM_STORE(q + 2, xmm2);
 		break;
 	default:
+#ifdef _MSC_VER
 		__assume(0);
+#endif
+		break;
 	}
 }
 

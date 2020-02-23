@@ -60,6 +60,10 @@ IDXVA2MediaSample : public IUnknown
 	STDMETHOD_(DWORD, GetSurfaceID)() PURE;
 };
 
+#ifdef __CRT_UUID_DECL
+__CRT_UUID_DECL(IDXVA2MediaSample, 0x65AB01B7, 0xB3B4, 0x4667, 0x9C,0x21, 0x01,0xB4,0x06,0x1D,0x88,0xDD);
+#endif
+
 class CDXVA2MediaSample
 	: public CMediaSample
 	, public IMFGetService

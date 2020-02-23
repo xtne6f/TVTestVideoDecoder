@@ -614,8 +614,12 @@ static void ELAPlane(
 	static const size_t BUFFER_SIZE = (12 * (1920 / 16) + 4) * 16;
 	uint32_t w16 = (Width + 15) >> 4;
 	size_t BufferSize = (12 * w16 + 4) * 16;
-	__declspec(align(16)) uint8_t Buffer[BUFFER_SIZE];
-	uint8_t *pELABuffer = (BufferSize <= BUFFER_SIZE) ? Buffer : (uint8_t*)_aligned_malloc(BufferSize, 16);
+#ifdef TVTVIDEODEC_SSE2_SUPPORT
+	__m128i Buffer[BUFFER_SIZE / sizeof(__m128i)];
+#else
+	uint8_t Buffer[BUFFER_SIZE];
+#endif
+	uint8_t *pELABuffer = (BufferSize <= BUFFER_SIZE) ? (uint8_t*)Buffer : (uint8_t*)_aligned_malloc(BufferSize, 16);
 
 	const uint32_t Field = fTopFiled ? 0 : 1;
 	uint8_t * restrict q = pDst;
@@ -680,7 +684,7 @@ static void ELAPlane(
 		Copy_C(q, p, Width);
 	}
 
-	if (pELABuffer != Buffer)
+	if (pELABuffer != (uint8_t*)Buffer)
 		_aligned_free(pELABuffer);
 }
 
