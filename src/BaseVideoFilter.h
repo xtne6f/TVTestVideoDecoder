@@ -28,6 +28,17 @@
 #include "FrameBuffer.h"
 
 
+#ifdef __MINGW32__
+// <mfidl.h> lack of definitions (Feb 2020 checked)
+#ifndef __IMFGetService_INTERFACE_DEFINED__
+struct IMFGetService : public IUnknown
+{
+	STDMETHOD(GetService)(REFGUID guidService, REFIID riid, LPVOID *ppvObject) = 0;
+};
+__CRT_UUID_DECL(IMFGetService, 0xFA993888, 0x4383, 0x415A, 0xA9,0x30, 0xDD,0x47,0x2A,0x8C,0xF6,0xF7);
+#endif
+#endif
+
 class CDXVA2Allocator;
 
 class CBaseVideoFilter : public CTransformFilter

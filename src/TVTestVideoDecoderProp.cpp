@@ -212,7 +212,7 @@ HRESULT CTVTestVideoDecoderProp::OnActivate()
 	TCHAR szText[64];
 	::LoadString(g_hInst, IDS_THREADS_AUTO, szText, _countof(szText));
 	::SendDlgItemMessage(m_Dlg, IDC_PROP_NUM_THREADS, CB_ADDSTRING, 0, (LPARAM)szText);
-	for (int i = 1; i <= min(TVTVIDEODEC_MAX_THREADS, 16) ; i++) {
+	for (int i = 1; i <= (TVTVIDEODEC_MAX_THREADS < 16 ? TVTVIDEODEC_MAX_THREADS : 16); i++) {
 		::wsprintf(szText, TEXT("%d"), i);
 		::SendDlgItemMessage(m_Dlg, IDC_PROP_NUM_THREADS, CB_ADDSTRING, 0, (LPARAM)szText);
 	}

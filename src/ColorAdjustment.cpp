@@ -99,7 +99,7 @@ void CColorAdjustment::ProcessY(int Width, int Height, uint8_t *pData, int Pitch
 
 #ifdef TVTVIDEODEC_SSE2_SUPPORT
 			if (fSSE2 && !((uintptr_t)p & 15)) {
-				const short c = (short)(min((m_Contrast * 512 / 100) + 512, (1 << 16) - 1));
+				const short c = (short)((m_Contrast * 512 / 100) + 512 < (1 << 16) - 1 ? (m_Contrast * 512 / 100) + 512 : (1 << 16) - 1);
 				const short b = (short)((m_Brightness * 255 / 100) + 16);
 				const __m128i bc = _mm_set_epi16(b, c, b, c, b, c, b, c);
 				const __m128i zero = _mm_setzero_si128();

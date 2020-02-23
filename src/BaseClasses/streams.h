@@ -152,6 +152,10 @@ LONG_PTR _SetWindowLongPtr(HWND hwnd, int nIndex, T p)
 #include <strmif.h>     // Generated IDL header file for streams interfaces
 #include <intsafe.h>    // required by amvideo.h
 
+#ifdef __MINGW32__
+#include "streams_mingw.h"
+#endif
+
 #include <reftime.h>    // Helper class for REFERENCE_TIME management
 #include <wxdebug.h>    // Debug support for logging and ASSERTs
 #include <amvideo.h>    // ActiveMovie video interfaces and definitions

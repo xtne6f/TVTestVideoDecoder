@@ -26,9 +26,8 @@
 #include <mferror.h>
 #include <evr.h>
 #include <vector>
+#include "BaseVideoFilter.h"
 
-
-class CBaseVideoFilter;
 
 class CDXVA2Allocator : public CBaseAllocator
 {

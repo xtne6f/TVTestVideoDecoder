@@ -16,9 +16,9 @@
 /* #undef ARCH_SPARC */
 
 /* x86 architecture */
-#if defined(_M_AMD64) || defined(_M_X64)
+#if defined(_M_AMD64) || defined(_M_X64) || defined(__x86_64)
 #define ARCH_X86_64
-#elif defined(_M_IX86)
+#elif (defined(_M_IX86) || defined(_X86_)) && (defined(_MSC_VER) || defined(__SSE2__))
 #define ARCH_X86
 #endif
 

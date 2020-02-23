@@ -187,7 +187,11 @@ CClassFactory::LockServer(BOOL fLock)
 
 //called by COM to get the class factory object for a given class
 __control_entrypoint(DllExport) STDAPI
+#ifdef BASECLASSES_RENAME_COM_ENTRYPOINTS
+BASECLASSES_DllGetClassObject(
+#else
 DllGetClassObject(
+#endif
     __in REFCLSID rClsID,
     __in REFIID riid,
     __deref_out void **pv)
@@ -244,7 +248,11 @@ DllInitClasses(BOOL bLoading)
 // and CCOMObject has a static function that can tell us about the active
 // object count
 STDAPI
+#ifdef BASECLASSES_RENAME_COM_ENTRYPOINTS
+BASECLASSES_DllCanUnloadNow()
+#else
 DllCanUnloadNow()
+#endif
 {
     DbgLog((LOG_MEMORY,2,TEXT("DLLCanUnloadNow called - IsLocked = %d, Active objects = %d"),
         CClassFactory::IsLocked(),
@@ -261,7 +269,9 @@ DllCanUnloadNow()
 // --- standard WIN32 entrypoints --------------------------------------
 
 
+#ifndef BASECLASSES_NO_SECURITY_INIT_COOKIE
 extern "C" void __cdecl __security_init_cookie(void);
+#endif
 extern "C" BOOL WINAPI _DllEntryPoint(HINSTANCE, ULONG, __inout_opt LPVOID);
 #pragma comment(linker, "/merge:.CRT=.rdata")
 
@@ -276,8 +286,10 @@ DllEntryPoint(
     )
 {
     if ( ulReason == DLL_PROCESS_ATTACH ) {
+#ifndef BASECLASSES_NO_SECURITY_INIT_COOKIE
         // Must happen before any other code is executed.  Thankfully - it's re-entrant
         __security_init_cookie();
+#endif
     }
     return _DllEntryPoint(hInstance, ulReason, pv);
 }

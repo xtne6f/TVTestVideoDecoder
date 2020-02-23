@@ -112,6 +112,14 @@ public:
 	STDMETHODIMP SetFrameCapture(ITVTestVideoDecoderFrameCapture *pFrameCapture) override;
 
 private:
+#ifdef __MINGW32__
+	// <dvdmedia.h> lack of definitions (Feb 2020 checked)
+	struct AM_SimpleRateChange
+	{
+		REFERENCE_TIME StartTime;
+		LONG Rate;
+	};
+#endif
 	CMpeg2Decoder *m_pDecoder;
 	CFrameBuffer m_FrameBuffer;
 	REFERENCE_TIME m_AvgTimePerFrame;
@@ -194,6 +202,34 @@ public:
 	STDMETHODIMP QuerySupported(REFGUID PropSet, ULONG Id, ULONG *pTypeSupport) override;
 
 private:
+#ifdef __MINGW32__
+	// <dvdmedia.h> lack of definitions (Feb 2020 checked)
+	enum
+	{
+		AM_RATE_SimpleRateChange = 1,
+		AM_RATE_ExactRateChange,
+		AM_RATE_MaxFullDataRate,
+		AM_RATE_Step,
+		AM_RATE_UseRateVersion,
+		AM_RATE_QueryFullFrameRate,
+		AM_RATE_QueryLastRateSegPTS,
+		AM_RATE_CorrectTS,
+		AM_RATE_ReverseMaxFullDataRate,
+		AM_RATE_ResetOnTimeDisc,
+		AM_RATE_QueryMapping
+	};
+	struct AM_SimpleRateChange
+	{
+		REFERENCE_TIME StartTime;
+		LONG Rate;
+	};
+	struct AM_QueryRate
+	{
+		LONG lMaxForwardFullFrame;
+		LONG lMaxReverseFullFrame;
+	};
+	typedef LONG AM_MaxFullDataRate;
+#endif
 	LONG m_CorrectTS;
 	CCritSec m_csRateLock;
 	AM_SimpleRateChange m_RateChange;
